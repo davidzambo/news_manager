@@ -29,5 +29,12 @@
 
       }
     }
+
+
+    public function upload_news(){
+      
+    }
+
+
   }
   ?>

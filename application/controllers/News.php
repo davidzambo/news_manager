@@ -27,6 +27,7 @@
 
     }
 
+
     public function create() {
       $this->load->helper('form');
       $this->load->library('form_validation');
@@ -37,12 +38,27 @@
 
       $data['title'] = 'Új cikk rögzítése';
 
-      $this->load->view('templates/header', $data);
-      $this->load->view('templates/navbar');
-      $this->load->view('news/create', $data);
-      $this->load->view('templates/footer');
+      if ($this->form_validation->run() === FALSE) {
 
+        $this->load->view('templates/header', $data);
+        $this->load->view('templates/navbar');
+        $this->load->view('news/create', $data);
+        $this->load->view('templates/footer');
+      } else {
+        $this->news_model->upload_new();
+        $this->load->view('news/success');
+      }
     }
+
+      public function success() {
+
+        $data['title'] = 'Sikeres feltöltés';
+
+        $this->load->view('templates/header', $data);
+        $this->load->view('templates/navbar');
+        $this->load->view('news/success', $data);
+        $this->load->view('templates/footer');
+      }
 
 
   }
