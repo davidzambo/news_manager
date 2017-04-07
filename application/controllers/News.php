@@ -45,12 +45,7 @@
         $this->load->view('news/create', $data);
         $this->load->view('templates/footer');
       } else {
-        $this->news_model->upload_new();
-        $this->load->view('news/success');
-      }
-    }
-
-      public function success() {
+        $this->news_model->upload_news();
 
         $data['title'] = 'Sikeres feltöltés';
 
@@ -59,6 +54,8 @@
         $this->load->view('news/success', $data);
         $this->load->view('templates/footer');
       }
+    }
+
 
 
   }
