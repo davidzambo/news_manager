@@ -55,12 +55,26 @@
       $this->load->helper('url');
 
       //finding the news with the most words in body
-      $most_words_per_body = $this->db->query("SELECT id, body FROM news");
+      $all_news = $this->db->query("SELECT * FROM news");
+      $most_words_per_body = $all_news->result();
+
+      //create an empty array to examine the words number of the body. If a
+      //longer news body found, it will be set as the longest_news
+      $longest_news = new stdClass();
+      $longest_news->body = "empty";
+
+      foreach ($most_words_per_body as $news) {
+        $words = explode(" ", $news->body);
+        $longest_news_word = explode(" ", $longest_news->body);
+        if (count($words) >  count($longest_news_word)){
+	         $longest_news = $news;
+          }
+        }
 
       $chars_per_day = $this->db->query("SELECT AVG(LENGTH(body)) AS chars_per_day, created_at FROM `news` GROUP BY MINUTE(created_at);");
       $news_per_day = $this->db->query("SELECT COUNT(id) AS daily_news, created_at FROM news GROUP BY MINUTE(created_at);");
 
-      $all_stats = [ "elso", "masodik", $chars_per_day->result(), $news_per_day->result()];
+      $all_stats = [ "elso", $longest_news, $chars_per_day->result(), $news_per_day->result()];
 
       return $all_stats;
 
