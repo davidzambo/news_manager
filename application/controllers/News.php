@@ -15,9 +15,11 @@
       $this->load->view('templates/footer');
     }
 
-    public function view($orderby = ' ') {
+    public function view($orderby = 'id', $page = 1) {
 
-      $data['news'] = $this->news_model->get_news($orderby);
+      $data['page'] = $page;
+      $data['orderby'] = $orderby;
+      $data['news'] = $this->news_model->get_news($orderby, $page);
       $data['title'] = 'Híreink';
 
       $this->load->view('templates/header', $data);

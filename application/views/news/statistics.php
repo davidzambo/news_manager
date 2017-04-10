@@ -54,8 +54,8 @@
   <tbody>
     <?php foreach ($stats[2] as $news_item): ?>
       <tr>
-        <td><?php echo $news_item->created_at; ?></td>
-        <td><?php echo $news_item->chars_per_day; ?></td>
+        <td><?php echo date("y. m. d.", strtotime($news_item->created_at)); ?></td>
+        <td><?php echo round($news_item->chars_per_day, 2); ?></td>
       </tr>
     <?php endforeach; ?>
   </tbody>
@@ -74,7 +74,7 @@
   <tbody>
     <?php foreach ($stats[3] as $news_item): ?>
       <tr>
-        <td><?php echo $news_item->created_at; ?></td>
+        <td><?php echo date("y. m. d.", strtotime($news_item->created_at)); ?></td>
         <td><?php echo $news_item->daily_news; ?></td>
       </tr>
     <?php endforeach; ?>

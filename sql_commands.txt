@@ -1,0 +1,22 @@
+CREATE DATABASE news;
+
+USE DATABASE news;
+
+CREATE TABLE news (
+ id int(11) NOT NULL AUTO_INCREMENT,
+ title varchar(255) NOT NULL,
+ body text,
+ created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+ PRIMARY KEY (id),
+ UNIQUE KEY title (title)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci;
+
+
+CREATE TABLE tags (
+ id int(11) NOT NULL AUTO_INCREMENT,
+ name varchar(64) NOT NULL,
+ news_title varchar(255) NOT NULL,
+ created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+ PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci;
+

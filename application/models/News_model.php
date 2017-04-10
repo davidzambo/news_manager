@@ -4,32 +4,42 @@
       $this->load->database();
     }
 
-    public function get_news($page = 1, $orderby = ' '){
+    public function get_news($orderby = 'id', $page = 1){
 
-      if ($page != 0) {
-        $page = $page*5-1;
+      if ($page < 1) {
+        $page = 0;
+      } else {
+        //$page must be decresed to the proper offset!
+        $page = ($page-1)*5;
       }
+
       switch ($orderby) {
         case "title":
-          $query = $this->db->query('SELECT * FROM news ORDER BY title DESC LIMIT 5 OFFSET '.$page);
-          return $query->result();
-          break;
+        $sql = 'SELECT * FROM news ORDER BY title DESC LIMIT 5 OFFSET '.$page.';';
+        $query = $this->db->query($sql);
+        return $query->result();
+        break;
 
         case "body":
+        $sql = 'SELECT * FROM news ORDER BY body DESC LIMIT 5 OFFSET '.$page.';';
+        $query = $this->db->query($sql);
+        return $query->result();
+        break;
           $query = $this->db->query('SELECT * FROM news ORDER BY body DESC LIMIT 5 OFFSET '.$page);
           return $query->result();
           break;
 
         case "created_at":
-          $query = $this->db->query('SELECT * FROM news ORDER BY created_at DESC LIMIT 5 OFFSET '.$page);
-          return $query->result();
-          break;
-
-        default:
-          $sql = 'SELECT * FROM news ORDER BY id DESC LIMIT 5 OFFSET '.$page.';';
+          $sql = 'SELECT * FROM news ORDER BY created_at DESC LIMIT 5 OFFSET '.$page.';';
           $query = $this->db->query($sql);
           return $query->result();
           break;
+
+        case "id":
+        default:
+          $sql = 'SELECT * FROM news ORDER BY id ASC LIMIT 5 OFFSET '.$page.';';
+          $query = $this->db->query($sql);
+          return $query->result();
 
       }
     }
@@ -77,8 +87,8 @@
           }
         }
 
-      $chars_per_day = $this->db->query("SELECT AVG(LENGTH(body)) AS chars_per_day, created_at FROM `news` GROUP BY MINUTE(created_at);");
-      $news_per_day = $this->db->query("SELECT COUNT(id) AS daily_news, created_at FROM news GROUP BY MINUTE(created_at);");
+      $chars_per_day = $this->db->query("SELECT AVG(LENGTH(body)) AS chars_per_day, created_at FROM `news` GROUP BY DAY(created_at);");
+      $news_per_day = $this->db->query("SELECT COUNT(id) AS daily_news, created_at FROM news GROUP BY DAY(created_at);");
 
       $all_stats = [ $top_10_tags->result(), $longest_news, $chars_per_day->result(), $news_per_day->result()];
 
