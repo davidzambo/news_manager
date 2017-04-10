@@ -4,26 +4,30 @@
       $this->load->database();
     }
 
-    public function get_news($orderby = ' '){
+    public function get_news($page = 1, $orderby = ' '){
 
+      if ($page != 0) {
+        $page = $page*5-1;
+      }
       switch ($orderby) {
         case "title":
-          $query = $this->db->query('SELECT * FROM news ORDER BY title DESC');
+          $query = $this->db->query('SELECT * FROM news ORDER BY title DESC LIMIT 5 OFFSET '.$page);
           return $query->result();
           break;
 
         case "body":
-          $query = $this->db->query('SELECT * FROM news ORDER BY body DESC');
+          $query = $this->db->query('SELECT * FROM news ORDER BY body DESC LIMIT 5 OFFSET '.$page);
           return $query->result();
           break;
 
         case "created_at":
-          $query = $this->db->query('SELECT * FROM news ORDER BY created_at DESC');
+          $query = $this->db->query('SELECT * FROM news ORDER BY created_at DESC LIMIT 5 OFFSET '.$page);
           return $query->result();
           break;
 
         default:
-          $query = $this->db->query('SELECT * FROM news ORDER BY id DESC');
+          $sql = 'SELECT * FROM news ORDER BY id DESC LIMIT 5 OFFSET '.$page.';';
+          $query = $this->db->query($sql);
           return $query->result();
           break;
 
@@ -53,6 +57,8 @@
     public function get_statistics(){
 
       $this->load->helper('url');
+      //finding the top 10 tags
+      $top_10_tags = $this->db->query("SELECT COUNT(id) AS times_used, name FROM `tags` GROUP BY name ORDER BY times_used DESC LIMIT 10");
 
       //finding the news with the most words in body
       $all_news = $this->db->query("SELECT * FROM news");
@@ -74,7 +80,7 @@
       $chars_per_day = $this->db->query("SELECT AVG(LENGTH(body)) AS chars_per_day, created_at FROM `news` GROUP BY MINUTE(created_at);");
       $news_per_day = $this->db->query("SELECT COUNT(id) AS daily_news, created_at FROM news GROUP BY MINUTE(created_at);");
 
-      $all_stats = [ "elso", $longest_news, $chars_per_day->result(), $news_per_day->result()];
+      $all_stats = [ $top_10_tags->result(), $longest_news, $chars_per_day->result(), $news_per_day->result()];
 
       return $all_stats;
 

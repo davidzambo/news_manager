@@ -1,6 +1,26 @@
 <h2><?php echo $title; ?></h2>
 <br/>
 
+<h4>A 10 legtöbbet felhasznált tag:</h4>
+<table class="table table-striped table-hover ">
+  <thead>
+      <tr>
+        <th>Tag</th>
+        <th>Ennyi cikkben volt felhasználva</th>
+      </tr>
+  </thead>
+  <tbody>
+      <?php foreach ($stats[0] as $tag): ?>
+          <tr>
+            <td><?php echo $tag->name; ?></td>
+            <td><?php echo $tag->times_used; ?></td>
+          </tr>
+      <?php endforeach; ?>
+  </tbody>
+</table>
+<br/>
+
+
 <h4>A legtöbb szót tartalmazó cikk:</h4>
 <table class="table table-striped table-hover ">
   <thead>
@@ -20,9 +40,7 @@
       </tr>
   </tbody>
 </table>
-
-<p><?php echo $stats[1]->title; ?></p>
-
+<br/>
 
 <h4>Naponta felvitt cikkek átlagos karakterszáma:</h4>
 
