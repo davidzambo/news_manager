@@ -1,4 +1,4 @@
-<h3><?php echo $title; ?></h3>
+<h2><?php echo $title; ?></h2>
 <p>rendezés módja:
 <a href="<?php echo base_url(); ?>view/id" class="btn btn-primary btn-xs">sorszám szerint</a>
 <a href="<?php echo base_url(); ?>view/title" class="btn btn-primary btn-xs">címe szerint</a>

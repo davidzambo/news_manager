@@ -57,6 +57,19 @@
     }
 
 
+    public function stats(){
+      $data['stats'] = $this->news_model->get_statistics();
+      $data['title'] = "Statisztikák";
+
+      $this->load->view('templates/header', $data);
+      $this->load->view('templates/navbar');
+      $this->load->view('news/statistics', $data);
+      $this->load->view('templates/footer');
+
+
+    }
+
+
 
   }
  ?>
